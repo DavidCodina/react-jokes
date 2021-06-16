@@ -8,13 +8,13 @@ export function Icon({
   size    = 'inherit', 
   color   = 'currentColor', 
   classes = '',
-  style   = {} 
+  style // Pass {} to override default styles.
 }){
 
   return (
     <i 
       className={ classes ? `bi bi-${name} ${classes}` : `bi bi-${name}`} 
-      style={{ fontSize: size, color: color, ...style }}
+      style={ style ? style : { fontSize: size, color: color, ...style }}
     ></i>   
   );
 }

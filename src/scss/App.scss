@@ -297,123 +297,6 @@ pre {
 }
 
 
-/* =============================================================================
-                            Polygon Container
-============================================================================= */
-
-
-.polygon-container-outer {
-  --text-color: #333;
-  --background-color:  rgb(245,245,245);
-  --border-color:      rgb(150,150,150);
-  display: flex;
-  position: relative;
-  min-height: 300px;
-  margin: 0 auto 75px auto;
-  filter: drop-shadow(0px 6px 6px rgba(0,0,0,0.25));
-}
-
-/* Add borders to edges. */
-.polygon-container-outer:before,
-.polygon-container-outer:after {
- content: "";
- display: block;
- position: absolute;
- width: 106px;
- height: 2px;
- background: var(--border-color);
- border-radius: 2px;
- -webkit-transform: rotate(45deg);
- transform: rotate(45deg);
- z-index: 1;
-}
-
-.polygon-container-outer:before {
- right: -15px;
- top: 37px;
-}
-
-.polygon-container-outer:after {
- left: -15px;
- bottom: 37px;
-}
-
-
-/* =======================
-
-======================= */
-
-
-.polygon-container-inner {
-  flex: 1;
-  //! I just added this to fix an issue whereby long pre/code examples
-  //! actually push the container out. However, the container itself is just
-  //! glitchy overall. It seems to have to do more with the
-  //! <pre><code>{``}</code></pre> content when used in React, which is strange.
-  width: 100%; 
-  padding: 30px 50px 50px 50px;
-  color: var(--text-color);
-  background: var(--background-color);
-  border: 2px solid var(--border-color);
-  border-top-left-radius: 25px;
-  clip-path: polygon(
-    0%                0%,
-    calc(100% - 75px) 0,
-    100%              75px,
-    100%              100%,
-    calc(0% + 75px)   100%,
-    0%                calc(100% - 75px)
-  );
-}
-
-@media (max-width: 450px) {
-  .polygon-container-inner {
-    padding: 30px 30px 50px 30px;
-  }
-}
-
-
-/* =======================
-
-======================= */
-
-
-.polygon-container-bottom {
-  position: absolute;
-  right: 0px;
-  bottom: -48px;
-  width: 50%;
-  height: 50px;
-  pointer-events: none;
-  background: var(--background-color);
-  border-bottom: 2px solid var(--border-color);
-  border-right: 2px solid var(--border-color);
-  border-bottom-right-radius: 25px;
-  clip-path: polygon(
-    0               0,
-    100%            0,
-    100%            100%,
-    calc(0% + 50px) 100%,
-    0               calc(100% - 50px)
-  );
-}
-
-.polygon-container-bottom:before {
-	 content: "";
-   display: block;
-	 position: absolute;
-   left: -75px;
-   bottom: 50px;
-	 width: 146px;
-   height: 2px;
-	 background: var(--border-color);
-   border-radius: 2px;
-	 -webkit-transform: rotate(45deg);
-	 transform: rotate(45deg);
-   z-index: 10;
-}
-
-
 /* =========================
 
 ========================= */
@@ -500,9 +383,7 @@ pre {
 ========================= */
 
 
-.todos-list li:hover {
-  box-shadow: 0 0 0 1px var(--bs-pink);
-}
+.font-montserrat { font-family: Montserrat; }
 
 .custom-link {
   flex: 1;
@@ -517,6 +398,14 @@ pre {
   text-decoration: none;
   color: var(--bs-pink);
 }
+
+
+.bi-hand-thumbs-up { font-size: 32px; }
+.bi-hand-thumbs-down { font-size: 32px; }
+
+
+.bi-hand-thumbs-up:hover { color: var(--bs-green); }
+.bi-hand-thumbs-down:hover { color:var(--bs-red); }
 
   
 /* =============================================================================
