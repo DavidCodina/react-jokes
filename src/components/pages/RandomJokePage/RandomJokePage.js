@@ -15,56 +15,83 @@ function containsObject(obj, arr, property){ // eslint-disable-line
 
 
 export function RandomJokePage(props){
-  const { value }               = props;
-  const { jokes, addJoke }      = value;           // eslint-disable-line
-  const [ error, setError ]     = useState(null);  
-  const [ loading, setLoading ] = useState(false); 
-  const [ joke, setJoke ]       = useState(null);  
-  // need category/setCategory with 'any'
-
-  
-  // _getJoke  goes here...
-  // Then wrap it in useCallback().
+  const { value }                = props;
+  const { jokes, addJoke }       = value;           // eslint-disable-line
+  const [ error, setError ]      = useState(null);  
+  const [ loading, setLoading ]  = useState(false); 
+  const [ joke, setJoke ]        = useState(null);  
+  const [ category, setCategory] = useState('any'); // eslint-disable-line
   
 
 
   const handleLike = () => {
-    // ...
+    const likedJoke = { ...joke, liked: true };
+    addJoke(likedJoke);
   };
 
 
   const handleDislike = () => {
-    // ...
+    const dislikedJoke = { ...joke, liked: false };
+    addJoke(dislikedJoke);
   };
+  
 
 
   const handleSelectChange = (e) => { // eslint-disable-line
     // ...
   };
 
-
   // Create getJoke(), and refactor this to: 
   // useEffect(() => { getJoke(getJoke); }, [getJoke]); 
 
-  
-  useEffect(() => {
+
+  const _getJoke = (self, attempt = 1, maxAttempts = 3) => {
+    if (!self || typeof self !== 'function'){ throw new Error('The first argument to getJoke, must be getJoke itself.'); }
+
     setLoading(true);
     setError(null);
 
-
     getData('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
     .then(res => {
-      setLoading(false);
       const joke = res.data;
-      setJoke(joke);
+      if ( containsObject(joke, jokes, 'id') && attempt < maxAttempts){
+        self(self, attempt + 1);
+      } else {
+        setLoading(false);
+        setJoke(joke);
+      }
     })
-
     .catch(err => {
       setLoading(false);
       setError(err);
       setJoke(null);
     });
-  }, []);
+  };
+
+  const getJoke = useCallback(_getJoke, [jokes]);
+
+
+  useEffect(() => { getJoke(getJoke); }, [getJoke]);
+
+  
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setError(null);
+
+
+  //   getData('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
+  //   .then(res => {
+  //     setLoading(false);
+  //     const joke = res.data;
+  //     setJoke(joke);
+  //   })
+
+  //   .catch(err => {
+  //     setLoading(false);
+  //     setError(err);
+  //     setJoke(null);
+  //   });
+  // }, []);
 
 
   const renderJoke = () => {

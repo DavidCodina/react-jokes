@@ -16,26 +16,33 @@ export const Provider = (props) => {
   const [ likedJokes, setLikedJokes ] = useState([]);                 // eslint-disable-line
 
 
+  useEffect(() => console.log(jokes), [jokes]);
+
   const addJoke = (joke) => {
-    // ...
+    const newJokes = jokes.filter(value => value.id !== joke.id);
+    setJokes([joke, ...newJokes]);
   };
 
 
   const removeJoke = (id) => { 
-    // ...
+    const newJokes = jokes.filter(value => value.id !== id);
+    setJokes(newJokes);
   };
-
-
+  
   
   // Every time jokes changes, update likedJokes
   useEffect(() => {
     const getLikedJokes = () => { // eslint-disable-line
-      // ...
+      const likedJokes = [];
+      jokes.forEach(joke => {
+        if (joke.liked === true){ likedJokes.push({ ...joke }); }
+
+      });
+      return likedJokes;
     };
 
-
-    // set const jokesUserLiked = getLikedJokes();
-    // Then  setLikedJokes(jokesUserLiked);
+    const jokesUsersLiked = getLikedJokes();
+    setLikedJokes(jokesUsersLiked);
   }, [jokes]);
   
 
