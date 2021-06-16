@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'; // eslint-disable-line
+import React, { useState, useEffect, useCallback } from 'react';
 import { getData }                                 from '../../../helpers/axios-helper';
 import { Icon }                                    from '../../shared';
 
 
-// Usage: if (containsObject(joke, jokes, 'id')){ ... }
-function containsObject(obj, arr, property){ // eslint-disable-line
+function containsObject(obj, arr, property){ 
   for (let i = 0; i < arr.length; i++){
     const currentObj = arr[i];
     if (currentObj[property] === obj[property]){ return true; }
@@ -13,16 +12,14 @@ function containsObject(obj, arr, property){ // eslint-disable-line
 }
 
 
-
 export function RandomJokePage(props){
   const { value }                = props;
-  const { jokes, addJoke }       = value;           // eslint-disable-line
+  const { jokes, addJoke }       = value;    
   const [ error, setError ]      = useState(null);  
   const [ loading, setLoading ]  = useState(false); 
   const [ joke, setJoke ]        = useState(null);  
-  const [ category, setCategory] = useState('any'); // eslint-disable-line
+  const [ category, setCategory] = useState('any'); 
   
-
 
   const handleLike = () => {
     const likedJoke = { ...joke, liked: true };
@@ -36,13 +33,9 @@ export function RandomJokePage(props){
   };
   
 
-
-  const handleSelectChange = (e) => { // eslint-disable-line
-    // ...
+  const handleSelectChange = (e) => { 
+    setCategory(e.target.value);
   };
-
-  // Create getJoke(), and refactor this to: 
-  // useEffect(() => { getJoke(getJoke); }, [getJoke]); 
 
 
   const _getJoke = (self, attempt = 1, maxAttempts = 3) => {
@@ -51,7 +44,7 @@ export function RandomJokePage(props){
     setLoading(true);
     setError(null);
 
-    getData('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
+    getData(`https://v2.jokeapi.dev/joke/${category}?blacklistFlags=nsfw,religious,political,racist,sexist,explicit`)
     .then(res => {
       const joke = res.data;
       if ( containsObject(joke, jokes, 'id') && attempt < maxAttempts){
@@ -68,30 +61,10 @@ export function RandomJokePage(props){
     });
   };
 
-  const getJoke = useCallback(_getJoke, [jokes]);
+  const getJoke = useCallback(_getJoke, [jokes, category]);
 
 
   useEffect(() => { getJoke(getJoke); }, [getJoke]);
-
-  
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setError(null);
-
-
-  //   getData('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
-  //   .then(res => {
-  //     setLoading(false);
-  //     const joke = res.data;
-  //     setJoke(joke);
-  //   })
-
-  //   .catch(err => {
-  //     setLoading(false);
-  //     setError(err);
-  //     setJoke(null);
-  //   });
-  // }, []);
 
 
   const renderJoke = () => {
@@ -154,6 +127,7 @@ export function RandomJokePage(props){
     <React.Fragment>
       <h2 className="my-5 text-white-3d text-center">Random Joke</h2>
 
+
       <div className="horizontal-ruler">
         <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
         <hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
@@ -161,8 +135,24 @@ export function RandomJokePage(props){
       </div>
 
 
-      {/* Add <label> and <select id="category-select">  */}
+      <label htmlFor="category-select" className="visually-hidden">Select Joke Category</label>
 
+
+      <select
+        id="category-select"
+        className="w-90 mx-auto mb-4 form-select text-gray"
+        style={{ maxWidth: 300 }}
+        value={category}
+        onChange={handleSelectChange}
+      >
+        <option value="any">Any</option>
+        <option value="misc">Miscallaneous</option>
+        <option value="programming">Programming</option>
+        <option value="dark">Dark</option>
+        <option value="pun">Pun</option>
+        <option value="spooky">Spooky</option>
+        <option value="christmas">Christmas</option>
+      </select>
 
       { renderJoke() }
     </React.Fragment>     

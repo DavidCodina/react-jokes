@@ -1,7 +1,7 @@
 import React              from 'react';
 import { Route, Switch }  from 'react-router-dom';
 import { RandomJokePage } from '../pages/RandomJokePage';
-//  import { LikedJokesPage } from '../pages/LikedJokesPage';
+import { LikedJokesPage } from '../pages/LikedJokesPage';
 import { NotFoundPage }   from '../pages/NotFoundPage';
 
 
@@ -19,14 +19,12 @@ const Router = (props) => {
         }}
       />
 
-      {/*
       <Route 
         exact path="/likedjokes"
         render={(props) => {
           return <LikedJokesPage {...props} value={value}  />;
         }}
       />
-      */}
       
       <Route component={NotFoundPage} />
     </Switch>

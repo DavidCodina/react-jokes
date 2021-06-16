@@ -19,9 +19,7 @@ const Navigation = (props) => {
       <nav id="primary-navigation">
         <div className="container-fluid">
           <NavLink className="nav-link" activeClassName="active-link" exact to="/" onClick={OffCanvas.hideOffCanvas}>Random Joke</NavLink>
-          {/* 
-          <NavLink className="nav-link" activeClassName="active-link" to="/likedjokes" onClick={OffCanvas.hideOffCanvas}>Liked Jokes</NavLink>
-          */}
+          <NavLink className="nav-link" activeClassName="active-link"       to="/likedjokes" onClick={OffCanvas.hideOffCanvas}>Liked Jokes</NavLink>
         </div>
       </nav>
     );

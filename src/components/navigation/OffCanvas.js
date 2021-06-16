@@ -31,7 +31,7 @@ function OffCanvas({
 
   const html                                      = document.getElementsByTagName('html')[0];
   const body                                      = document.getElementsByTagName('body')[0]; 
-  const transitionDuration                        = 300; // Mataches Bootstrap CSS transition duration.
+  const transitionDuration                        = 300; // Matches Bootstrap CSS transition duration.
   const offCanvasRef                              = useRef();
   const togglerRef                                = useRef();
   const backdropRef                               = useRef();
